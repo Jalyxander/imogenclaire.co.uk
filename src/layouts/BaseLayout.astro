@@ -1,0 +1,185 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title ? `${title} | Imogen Claire` : 'Imogen Claire - Contemporary Artist';
+const pageDescription = description || 'Contemporary artist specializing in dark, realistic still life paintings with tenebristic lighting and gothic themes.';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="/" class="logo">IMOGEN CLAIRE</a>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="/gallery">Gallery</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <p>&copy; 2025 Imogen Claire. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  :root {
+    --charcoal-black: #1a1a1a;
+    --warm-white: #faf9f7;
+    --bone: #f4f1eb;
+    --deep-burgundy: #4a1a1a;
+    --warm-grey: #6b6660;
+    --soft-gold: #b8a082;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--warm-white);
+    color: var(--charcoal-black);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  header {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--bone);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+  }
+
+  .logo {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--charcoal-black);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .logo:hover {
+    color: var(--deep-burgundy);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--warm-grey);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--deep-burgundy);
+  }
+
+  main {
+    min-height: calc(100vh - 200px);
+  }
+
+  footer {
+    background: var(--bone);
+    padding: 3rem 0;
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .footer-content {
+    color: var(--warm-grey);
+    font-size: 0.9rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-links a {
+    color: var(--warm-grey);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--deep-burgundy);
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 1rem;
+    }
+
+    nav {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .nav-links {
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+    }
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About">
+  <div class="about-hero">
+    <div class="container">
+      <h1>About Imogen Claire</h1>
+    </div>
+  </div>
+
+  <section class="about-content">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Contemporary Still Life Artist</h2>
+          <p>Working in the tradition of Dutch masters, I create intimate studies that explore the quiet drama found in everyday objects. My paintings use dramatic chiaroscuro lighting to reveal hidden narratives within still life compositions, inviting viewers to contemplate themes of presence, absence, and the passage of time.</p>
+          
+          <p>Each piece begins with careful observation of light and shadow, building layers of meaning through the interplay of illumination and darkness. The gothic elements that often appear in my work—from weathered books to antique vessels—serve not as mere subjects but as vessels for deeper contemplation about mortality, memory, and the weight of history.</p>
+          
+          <p>My artistic practice is rooted in traditional techniques while embracing contemporary sensibilities. I work primarily in oils, building up rich, luminous surfaces that capture the subtle gradations of light that define tenebristic painting. The result is work that feels both timeless and urgently contemporary, speaking to our current moment while honoring the long tradition of still life painting.</p>
+
+          <h3>Education & Background</h3>
+          <p>I studied Fine Arts at the Royal College of Art, where I developed my distinctive approach to contemporary still life. My work has been exhibited in galleries across the UK and is held in private collections internationally.</p>
+
+          <h3>Artistic Philosophy</h3>
+          <p>"I'm drawn to the way light can transform the mundane into something profound. In the interplay between shadow and revelation, everyday objects become carriers of meaning, inviting us to slow down and really see what's before us."</p>
+        </div>
+        
+        <div class="about-image">
+          <div class="placeholder-image">
+            <p>Artist Portrait</p>
+          </div>
+          <div class="studio-image">
+            <div class="placeholder-image">
+              <p>Studio Shot</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .about-hero {
+      background: var(--bone);
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .about-hero h1 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 3rem;
+      font-weight: 500;
+      color: var(--charcoal-black);
+    }
+
+    .about-content {
+      padding: 4rem 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text h2 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      color: var(--charcoal-black);
+    }
+
+    .about-text h3 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 2rem 0 1rem 0;
+      color: var(--deep-burgundy);
+    }
+
+    .about-text p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--charcoal-black);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-image {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .placeholder-image {
+      aspect-ratio: 4/5;
+      background: var(--bone);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--warm-grey);
+      font-style: italic;
+    }
+
+    .studio-image .placeholder-image {
+      aspect-ratio: 16/9;
+    }
+
+    @media (max-width: 768px) {
+      .about-hero {
+        padding: 2rem 0;
+      }
+
+      .about-hero h1 {
+        font-size: 2rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-text h2 {
+        font-size: 1.5rem;
+      }
+
+      .about-text p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</BaseLayout>
