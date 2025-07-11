@@ -21,36 +21,97 @@ const pageDescription = description || 'Contemporary artist specializing in dark
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <nav>
-        <a href="/" class="logo">IMOGEN CLAIRE</a>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/gallery">Gallery</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="logo">IMOGEN CLAIRE</a>
+      <nav class="main-nav">
+        <a href="/">Home</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main class="site-main">
     <slot />
   </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-links">
-          <a href="/gallery">Gallery</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-        </div>
-        <p>&copy; 2025 Imogen Claire. All rights reserved.</p>
-      </div>
+  <footer class="site-footer">
+    <div class="footer-container">
+      <nav class="footer-nav">
+        <a href="/gallery">Gallery</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <p class="copyright">&copy; 2025 Imogen Claire. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <div class="lightbox-backdrop"></div>
+    <div class="lightbox-container">
+      <button class="lightbox-close">&times;</button>
+      <img class="lightbox-image" src="" alt="" />
+      <div class="lightbox-details">
+        <h3 class="lightbox-title"></h3>
+        <p class="lightbox-info"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.querySelector('.lightbox-image');
+      const lightboxTitle = document.querySelector('.lightbox-title');
+      const lightboxInfo = document.querySelector('.lightbox-info');
+      const lightboxClose = document.querySelector('.lightbox-close');
+      const lightboxBackdrop = document.querySelector('.lightbox-backdrop');
+
+      function openLightbox(src, title, info, alt) {
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+        lightboxTitle.textContent = title;
+        lightboxInfo.textContent = info;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function attachLightboxEvents() {
+        const images = document.querySelectorAll('.artwork-image img, .featured-image img');
+        images.forEach(img => {
+          img.addEventListener('click', function() {
+            const container = this.closest('.artwork-card, .artwork-item, .featured-card');
+            const title = container.querySelector('h3').textContent;
+            const meta = container.querySelector('.artwork-meta, .featured-meta');
+            const info = meta ? meta.textContent : '';
+            openLightbox(this.src, title, info, this.alt);
+          });
+        });
+      }
+
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightboxBackdrop.addEventListener('click', closeLightbox);
+      
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+          closeLightbox();
+        }
+      });
+
+      attachLightboxEvents();
+
+      const observer = new MutationObserver(attachLightboxEvents);
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+  </script>
 </body>
 </html>
 
@@ -62,6 +123,19 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     --deep-burgundy: #4a1a1a;
     --warm-grey: #6b6660;
     --soft-gold: #b8a082;
+    
+    --max-width: 1200px;
+    --padding: 20px;
+    --section-gap: 80px;
+    --content-gap: 40px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --padding: 40px;
+      --section-gap: 120px;
+      --content-gap: 60px;
+    }
   }
 
   * {
@@ -72,18 +146,13 @@ const pageDescription = description || 'Contemporary artist specializing in dark
 
   body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--warm-white);
+    background: var(--warm-white);
     color: var(--charcoal-black);
     line-height: 1.6;
   }
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  header {
+  /* Header */
+  .site-header {
     background: var(--warm-white);
     border-bottom: 1px solid var(--bone);
     position: sticky;
@@ -91,11 +160,15 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     z-index: 100;
   }
 
-  nav {
+  .header-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px var(--padding);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 0;
+    flex-wrap: wrap;
+    gap: 20px;
   }
 
   .logo {
@@ -112,73 +185,233 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     color: var(--deep-burgundy);
   }
 
-  .nav-links {
+  .main-nav {
     display: flex;
-    gap: 2rem;
-    list-style: none;
+    gap: 30px;
+    flex-wrap: wrap;
   }
 
-  .nav-links a {
+  .main-nav a {
     color: var(--warm-grey);
     text-decoration: none;
     font-weight: 400;
     transition: color 0.3s ease;
   }
 
-  .nav-links a:hover,
-  .nav-links a.active {
+  .main-nav a:hover {
     color: var(--deep-burgundy);
   }
 
-  main {
+  /* Main */
+  .site-main {
     min-height: calc(100vh - 200px);
   }
 
-  footer {
+  /* Footer */
+  .site-footer {
     background: var(--bone);
-    padding: 3rem 0;
+    margin-top: var(--section-gap);
+  }
+
+  .footer-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 40px var(--padding);
     text-align: center;
-    margin-top: 4rem;
   }
 
-  .footer-content {
-    color: var(--warm-grey);
-    font-size: 0.9rem;
-  }
-
-  .footer-links {
+  .footer-nav {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 1rem;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
   }
 
-  .footer-links a {
+  .footer-nav a {
     color: var(--warm-grey);
     text-decoration: none;
     transition: color 0.3s ease;
   }
 
-  .footer-links a:hover {
+  .footer-nav a:hover {
     color: var(--deep-burgundy);
   }
 
+  .copyright {
+    color: var(--warm-grey);
+    font-size: 0.9rem;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .lightbox.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+  }
+
+  .lightbox-container {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1001;
+    padding: 20px;
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 75vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -50px;
+    right: -10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 10px;
+    line-height: 1;
+    transition: color 0.3s ease;
+  }
+
+  .lightbox-close:hover {
+    color: var(--soft-gold);
+  }
+
+  .lightbox-details {
+    background: var(--warm-white);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+    max-width: 500px;
+  }
+
+  .lightbox-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--charcoal-black);
+  }
+
+  .lightbox-info {
+    color: var(--warm-grey);
+    font-size: 0.9rem;
+  }
+
+  /* Utility Classes */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--padding);
+  }
+
+  .artwork-image,
+  .featured-image {
+    cursor: pointer;
+    position: relative;
+    transition: opacity 0.3s ease;
+  }
+
+  .artwork-image:hover,
+  .featured-image:hover {
+    opacity: 0.95;
+  }
+
+  .artwork-image::after,
+  .featured-image::after {
+    content: '⊕';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .artwork-image:hover::after,
+  .featured-image:hover::after {
+    opacity: 1;
+  }
+
+  /* Mobile Navigation */
   @media (max-width: 768px) {
-    .container {
-      padding: 0 1rem;
-    }
-
-    nav {
+    .header-container {
       flex-direction: column;
-      gap: 1rem;
-      padding: 1rem 0;
+      text-align: center;
     }
 
-    .nav-links {
-      gap: 1rem;
+    .main-nav {
+      gap: 20px;
     }
 
-    .logo {
+    .footer-nav {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .lightbox-container {
+      padding: 15px;
+    }
+
+    .lightbox-image {
+      max-height: 65vh;
+    }
+
+    .lightbox-close {
+      top: -40px;
+      right: 0;
+      font-size: 1.5rem;
+    }
+
+    .lightbox-details {
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .lightbox-title {
       font-size: 1.2rem;
     }
   }

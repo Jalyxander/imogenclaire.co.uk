@@ -7,43 +7,43 @@ const sortedFeatured = featuredArtworks.sort((a, b) => a.data.order - b.data.ord
 ---
 
 <BaseLayout>
-  <div class="hero">
+  <section class="hero-section">
     <div class="container">
       <div class="hero-content">
         <h1>Contemporary Still Life</h1>
         <p>Exploring the interplay between shadow and revelation through intimate studies in the chiaroscuro tradition</p>
-        <div class="hero-actions">
+        <div class="hero-buttons">
           <a href="/gallery" class="btn btn-primary">View Gallery</a>
           <a href="/contact" class="btn btn-secondary">Commissions</a>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   {sortedFeatured.length > 0 && (
-    <section class="featured-works">
+    <section class="featured-section">
       <div class="container">
         <h2>Featured Works</h2>
         <div class="featured-grid">
           {sortedFeatured.map((artwork) => (
-            <div class="artwork-card">
-              <div class="artwork-image">
+            <article class="featured-card">
+              <div class="featured-image">
                 <img src={artwork.data.image.src} alt={artwork.data.alt} />
-                <div class="artwork-overlay">
+                <div class="featured-overlay">
                   <h3>{artwork.data.title}</h3>
-                  <p>{artwork.data.year} • {artwork.data.medium}</p>
+                  <p class="featured-meta">{artwork.data.year} • {artwork.data.medium}</p>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
     </section>
   )}
 
-  <section class="intro">
+  <section class="about-section">
     <div class="container">
-      <div class="intro-content">
+      <div class="about-content">
         <h2>About the Work</h2>
         <p>My paintings explore the quiet drama found in everyday objects, using dramatic lighting to reveal hidden narratives within still life compositions. Working in the tradition of Dutch masters, I create intimate studies that invite contemplation of presence, absence, and the passage of time.</p>
         <a href="/about" class="btn btn-outline">Learn More</a>
@@ -52,44 +52,53 @@ const sortedFeatured = featuredArtworks.sort((a, b) => a.data.order - b.data.ord
   </section>
 
   <style>
-    .hero {
+    /* Hero Section */
+    .hero-section {
       background: linear-gradient(135deg, var(--bone) 0%, var(--warm-white) 100%);
-      padding: 6rem 0;
+      padding: var(--section-gap) 0;
+    }
+
+    .hero-content {
       text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .hero-content h1 {
       font-family: 'Crimson Pro', serif;
-      font-size: 3.5rem;
+      font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 500;
-      margin-bottom: 1rem;
+      margin-bottom: 24px;
       color: var(--charcoal-black);
+      line-height: 1.2;
     }
 
     .hero-content p {
-      font-size: 1.2rem;
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
       color: var(--warm-grey);
-      margin-bottom: 2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-bottom: 40px;
+      line-height: 1.7;
     }
 
-    .hero-actions {
+    .hero-buttons {
       display: flex;
-      gap: 1rem;
+      gap: 20px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
+    /* Buttons */
     .btn {
       display: inline-block;
-      padding: 0.75rem 2rem;
+      padding: 16px 32px;
       border-radius: 4px;
       text-decoration: none;
       font-weight: 500;
+      font-size: 1rem;
       transition: all 0.3s ease;
       border: 2px solid transparent;
+      min-width: 160px;
+      text-align: center;
     }
 
     .btn-primary {
@@ -99,6 +108,8 @@ const sortedFeatured = featuredArtworks.sort((a, b) => a.data.order - b.data.ord
 
     .btn-primary:hover {
       background: var(--charcoal-black);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     .btn-secondary {
@@ -110,6 +121,8 @@ const sortedFeatured = featuredArtworks.sort((a, b) => a.data.order - b.data.ord
     .btn-secondary:hover {
       background: var(--deep-burgundy);
       color: var(--warm-white);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 26, 26, 0.3);
     }
 
     .btn-outline {
@@ -121,124 +134,138 @@ const sortedFeatured = featuredArtworks.sort((a, b) => a.data.order - b.data.ord
     .btn-outline:hover {
       background: var(--charcoal-black);
       color: var(--warm-white);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    .featured-works {
-      padding: 4rem 0;
+    /* Featured Section */
+    .featured-section {
+      padding: var(--section-gap) 0;
     }
 
-    .featured-works h2 {
+    .featured-section h2 {
       font-family: 'Crimson Pro', serif;
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 4vw, 2.8rem);
       font-weight: 500;
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: var(--content-gap);
       color: var(--charcoal-black);
     }
 
     .featured-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      gap: 30px;
     }
 
-    .artwork-card {
+    .featured-card {
       background: white;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    .artwork-card:hover {
-      transform: translateY(-5px);
+    .featured-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     }
 
-    .artwork-image {
+    .featured-image {
       position: relative;
       aspect-ratio: 4/5;
       overflow: hidden;
     }
 
-    .artwork-image img {
+    .featured-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease;
     }
 
-    .artwork-overlay {
+    .featured-card:hover .featured-image img {
+      transform: scale(1.05);
+    }
+
+    .featured-overlay {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
       background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-      padding: 2rem;
+      padding: 30px;
       color: white;
     }
 
-    .artwork-overlay h3 {
+    .featured-overlay h3 {
       font-family: 'Crimson Pro', serif;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 500;
-      margin-bottom: 0.5rem;
+      margin-bottom: 8px;
     }
 
-    .artwork-overlay p {
+    .featured-overlay p {
       font-size: 0.9rem;
       opacity: 0.9;
     }
 
-    .intro {
+    /* About Section */
+    .about-section {
       background: var(--bone);
-      padding: 4rem 0;
+      padding: var(--section-gap) 0;
     }
 
-    .intro-content {
+    .about-content {
       text-align: center;
       max-width: 800px;
       margin: 0 auto;
     }
 
-    .intro-content h2 {
+    .about-content h2 {
       font-family: 'Crimson Pro', serif;
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 4vw, 2.8rem);
       font-weight: 500;
-      margin-bottom: 1.5rem;
+      margin-bottom: 24px;
       color: var(--charcoal-black);
     }
 
-    .intro-content p {
-      font-size: 1.1rem;
+    .about-content p {
+      font-size: clamp(1.1rem, 2.2vw, 1.2rem);
       color: var(--warm-grey);
-      margin-bottom: 2rem;
+      margin-bottom: 40px;
       line-height: 1.8;
     }
 
+    /* Mobile Adjustments */
     @media (max-width: 768px) {
-      .hero {
-        padding: 3rem 0;
-      }
-
-      .hero-content h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero-content p {
-        font-size: 1rem;
-      }
-
-      .hero-actions {
+      .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 15px;
       }
 
       .btn {
         width: 200px;
-        text-align: center;
       }
 
       .featured-grid {
         grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .featured-overlay {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .featured-overlay {
+        padding: 15px;
+      }
+
+      .featured-overlay h3 {
+        font-size: 1.2rem;
       }
     }
   </style>

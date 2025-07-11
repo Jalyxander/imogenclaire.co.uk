@@ -1,12 +1,12 @@
 ---
-title: "Still Life with Pomegranate"
+title: "Moments Suspended"
 year: 2024
 medium: "Oil on canvas"
 dimensions: "50 × 40 cm"
 price: "£1,800"
 available: true
 featured: true
-image: "./pomegranate-still-life.jpg"
+image: "./moments-suspended.webp"
 alt: "Dramatic still life painting of a split pomegranate with seeds spilling out, rendered in deep shadows with selective lighting"
 order: 2
 ---

@@ -7,50 +7,55 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout title="Gallery">
-  <div class="gallery-hero">
-    <div class="container">
+  <section class="gallery-hero">
+    <div class="hero-content">
       <h1>Gallery</h1>
       <p>A collection of contemporary still life paintings exploring light, shadow, and the quiet drama of everyday objects</p>
     </div>
-  </div>
+  </section>
 
   <section class="gallery">
-    <div class="container">
-      <div class="gallery-grid">
-        {sortedArtworks.map((artwork) => (
-          <div class="artwork-item">
-            <div class="artwork-image">
-              <img src={artwork.data.image.src} alt={artwork.data.alt} />
-              <div class="artwork-watermark">IC</div>
+    <div class="gallery-grid">
+      {sortedArtworks.map((artwork) => (
+        <article class="artwork-item">
+          <div class="artwork-image">
+            <img src={artwork.data.image.src} alt={artwork.data.alt} />
+            <div class="artwork-watermark">IC</div>
+          </div>
+          <div class="artwork-info">
+            <h3>{artwork.data.title}</h3>
+            <p class="artwork-meta">{artwork.data.year} • {artwork.data.medium} • {artwork.data.dimensions}</p>
+            <div class="artwork-description">
+              <div set:html={artwork.body} />
             </div>
-            <div class="artwork-info">
-              <h3>{artwork.data.title}</h3>
-              <p class="artwork-meta">{artwork.data.year} • {artwork.data.medium} • {artwork.data.dimensions}</p>
-              <div class="artwork-description">
-                <div set:html={artwork.body} />
-              </div>
-              <div class="artwork-actions">
-                {artwork.data.price && artwork.data.available && (
-                  <p class="artwork-price">{artwork.data.price}</p>
-                )}
-                {artwork.data.available ? (
-                  <a href="/contact" class="btn btn-primary">Inquire</a>
-                ) : (
-                  <span class="sold-badge">Sold</span>
-                )}
-              </div>
+            <div class="artwork-actions">
+              {artwork.data.price && artwork.data.available && (
+                <p class="artwork-price">{artwork.data.price}</p>
+              )}
+              {artwork.data.available ? (
+                <a href="/contact" class="btn btn-primary">Inquire</a>
+              ) : (
+                <span class="sold-badge">Sold</span>
+              )}
             </div>
           </div>
-        ))}
-      </div>
+        </article>
+      ))}
     </div>
   </section>
 
   <style>
     .gallery-hero {
       background: var(--bone);
-      padding: 4rem 0;
+      padding: 4rem 2rem;
+      margin: -4rem -2rem 4rem -2rem;
       text-align: center;
+      border-radius: 0 0 1rem 1rem;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .gallery-hero h1 {
@@ -64,12 +69,11 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
     .gallery-hero p {
       font-size: 1.1rem;
       color: var(--warm-grey);
-      max-width: 600px;
-      margin: 0 auto;
+      line-height: 1.8;
     }
 
     .gallery {
-      padding: 4rem 0;
+      padding: 0;
     }
 
     .gallery-grid {
@@ -86,6 +90,7 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
     }
 
     .artwork-item:nth-child(even) {
@@ -100,12 +105,19 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
       position: relative;
       aspect-ratio: 4/5;
       overflow: hidden;
+      border-radius: 4px;
     }
 
     .artwork-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .artwork-image img:hover {
+      opacity: 0.95;
     }
 
     .artwork-watermark {
@@ -119,7 +131,7 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
     }
 
     .artwork-info {
-      padding: 2rem;
+      padding: 1rem;
     }
 
     .artwork-info h3 {
@@ -152,6 +164,7 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
       font-weight: 500;
       color: var(--deep-burgundy);
       font-size: 1.1rem;
+      margin: 0;
     }
 
     .sold-badge {
@@ -184,7 +197,8 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
 
     @media (max-width: 768px) {
       .gallery-hero {
-        padding: 2rem 0;
+        padding: 2rem 1.5rem;
+        margin: -2rem -1.5rem 2rem -1.5rem;
       }
 
       .gallery-hero h1 {
@@ -193,7 +207,8 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
 
       .artwork-item {
         grid-template-columns: 1fr;
-        gap: 0;
+        gap: 1.5rem;
+        padding: 1.5rem;
       }
 
       .artwork-item:nth-child(even) {
@@ -201,7 +216,7 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
       }
 
       .artwork-info {
-        padding: 1.5rem;
+        padding: 0;
       }
 
       .artwork-actions {
@@ -212,6 +227,17 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
 
       .btn {
         text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-hero {
+        padding: 1.5rem 1rem;
+        margin: -1.5rem -1rem 1.5rem -1rem;
+      }
+
+      .artwork-item {
+        padding: 1rem;
       }
     }
   </style>

@@ -1,12 +1,12 @@
 ---
-title: "Memento Mori"
+title: "Blue Silence, Crimson Bite"
 year: 2023
 medium: "Oil on canvas"
 dimensions: "60 × 50 cm"
 price: "Sold"
 available: false
 featured: false
-image: "./memento-mori.jpg"
+image: "./blue-silence-crimson-bite.webp"
 alt: "Gothic still life featuring a human skull, wilted roses, and antique pocket watch arranged on weathered wood"
 order: 3
 ---
