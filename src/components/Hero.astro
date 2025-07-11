@@ -1,0 +1,75 @@
+---
+export interface Props {
+  title: string;
+  subtitle?: string;
+  centered?: boolean;
+  background?: 'default' | 'gradient';
+}
+
+const { 
+  title, 
+  subtitle, 
+  centered = true, 
+  background = 'default' 
+} = Astro.props;
+---
+
+<section class={`hero-section ${background === 'gradient' ? 'hero-gradient' : ''}`}>
+  <div class="container">
+    <div class={`hero-content ${centered ? 'centered' : ''}`}>
+      <h1 class="hero-title">{title}</h1>
+      {subtitle && <p class="hero-subtitle">{subtitle}</p>}
+      <slot name="buttons" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    background: var(--bone);
+    padding: var(--section-padding);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, var(--bone) 0%, var(--warm-white) 100%);
+  }
+
+  .hero-content {
+    max-width: 800px;
+  }
+
+  .hero-content.centered {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    color: var(--warm-grey);
+    margin-bottom: var(--space-xl);
+    line-height: 1.7;
+  }
+
+  .hero-content :global(.hero-buttons) {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content :global(.hero-buttons) {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .hero-content :global(.btn) {
+      width: 200px;
+    }
+  }
+</style>

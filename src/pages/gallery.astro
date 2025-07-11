@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Lightbox from '../components/Lightbox.astro';
+import Hero from '../components/Hero.astro';
+import ArtworkCard from '../components/ArtworkCard.astro';
 import { getCollection } from 'astro:content';
 
 const artworks = await getCollection('artwork');
@@ -7,238 +10,39 @@ const sortedArtworks = artworks.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout title="Gallery">
-  <section class="gallery-hero">
-    <div class="hero-content">
-      <h1>Gallery</h1>
-      <p>A collection of contemporary still life paintings exploring light, shadow, and the quiet drama of everyday objects</p>
+  <Hero 
+    title="Gallery" 
+    subtitle="A collection of contemporary paintings and studies that invite contemplation of presence, absence, and the passage of time."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="gallery-grid">
+        {sortedArtworks.map((artwork, index) => (
+          <ArtworkCard 
+            artwork={artwork} 
+            layout="gallery" 
+            reversed={index % 2 === 1}
+          >
+            <div set:html={artwork.body} />
+          </ArtworkCard>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="gallery">
-    <div class="gallery-grid">
-      {sortedArtworks.map((artwork) => (
-        <article class="artwork-item">
-          <div class="artwork-image">
-            <img src={artwork.data.image.src} alt={artwork.data.alt} />
-            <div class="artwork-watermark">IC</div>
-          </div>
-          <div class="artwork-info">
-            <h3>{artwork.data.title}</h3>
-            <p class="artwork-meta">{artwork.data.year} • {artwork.data.medium} • {artwork.data.dimensions}</p>
-            <div class="artwork-description">
-              <div set:html={artwork.body} />
-            </div>
-            <div class="artwork-actions">
-              {artwork.data.price && artwork.data.available && (
-                <p class="artwork-price">{artwork.data.price}</p>
-              )}
-              {artwork.data.available ? (
-                <a href="/contact" class="btn btn-primary">Inquire</a>
-              ) : (
-                <span class="sold-badge">Sold</span>
-              )}
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <style>
-    .gallery-hero {
-      background: var(--bone);
-      padding: 4rem 2rem;
-      margin: -4rem -2rem 4rem -2rem;
-      text-align: center;
-      border-radius: 0 0 1rem 1rem;
-    }
-
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .gallery-hero h1 {
-      font-family: 'Crimson Pro', serif;
-      font-size: 3rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-      color: var(--charcoal-black);
-    }
-
-    .gallery-hero p {
-      font-size: 1.1rem;
-      color: var(--warm-grey);
-      line-height: 1.8;
-    }
-
-    .gallery {
-      padding: 0;
-    }
-
-    .gallery-grid {
-      display: grid;
-      gap: 4rem;
-    }
-
-    .artwork-item {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      padding: 2rem;
-    }
-
-    .artwork-item:nth-child(even) {
-      direction: rtl;
-    }
-
-    .artwork-item:nth-child(even) .artwork-info {
-      direction: ltr;
-    }
-
-    .artwork-image {
-      position: relative;
-      aspect-ratio: 4/5;
-      overflow: hidden;
-      border-radius: 4px;
-    }
-
-    .artwork-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-    }
-
-    .artwork-image img:hover {
-      opacity: 0.95;
-    }
-
-    .artwork-watermark {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      font-family: 'Crimson Pro', serif;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.6);
-      letter-spacing: 0.1em;
-    }
-
-    .artwork-info {
-      padding: 1rem;
-    }
-
-    .artwork-info h3 {
-      font-family: 'Crimson Pro', serif;
-      font-size: 1.8rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: var(--charcoal-black);
-    }
-
-    .artwork-meta {
-      color: var(--warm-grey);
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .artwork-description {
-      color: var(--charcoal-black);
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
-    .artwork-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .artwork-price {
-      font-weight: 500;
-      color: var(--deep-burgundy);
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    .sold-badge {
-      background: var(--warm-grey);
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 2rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-    }
-
-    .btn-primary {
-      background: var(--deep-burgundy);
-      color: var(--warm-white);
-    }
-
-    .btn-primary:hover {
-      background: var(--charcoal-black);
-    }
-
-    @media (max-width: 768px) {
-      .gallery-hero {
-        padding: 2rem 1.5rem;
-        margin: -2rem -1.5rem 2rem -1.5rem;
-      }
-
-      .gallery-hero h1 {
-        font-size: 2rem;
-      }
-
-      .artwork-item {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 1.5rem;
-      }
-
-      .artwork-item:nth-child(even) {
-        direction: ltr;
-      }
-
-      .artwork-info {
-        padding: 0;
-      }
-
-      .artwork-actions {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
-      }
-
-      .btn {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .gallery-hero {
-        padding: 1.5rem 1rem;
-        margin: -1.5rem -1rem 1.5rem -1rem;
-      }
-
-      .artwork-item {
-        padding: 1rem;
-      }
-    }
-  </style>
+  <Lightbox />
 </BaseLayout>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      gap: var(--space-xl);
+    }
+  }
+</style>

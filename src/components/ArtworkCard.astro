@@ -1,0 +1,298 @@
+---
+export interface Props {
+  artwork: any;
+  layout?: 'featured' | 'gallery' | 'grid';
+  reversed?: boolean;
+}
+
+const { artwork, layout = 'grid', reversed = false } = Astro.props;
+const { data } = artwork;
+---
+
+{layout === 'featured' && (
+  <article class="featured-card">
+    <div class="featured-image">
+      <img src={data.image.src} alt={data.alt} />
+      <div class="featured-overlay">
+        <h3>{data.title}</h3>
+        <p class="featured-meta">{data.year} • {data.medium}</p>
+      </div>
+    </div>
+  </article>
+)}
+
+{layout === 'gallery' && (
+  <article class={`artwork-item ${reversed ? 'reversed' : ''}`}>
+    <div class="artwork-image">
+      <img src={data.image.src} alt={data.alt} />
+      <div class="artwork-watermark">IC</div>
+    </div>
+    <div class="artwork-info">
+      <h3>{data.title}</h3>
+      <p class="artwork-meta">{data.year} • {data.medium} • {data.dimensions}</p>
+      <div class="artwork-description">
+        <slot />
+      </div>
+      <div class="artwork-actions">
+        {data.price && data.available && (
+          <p class="artwork-price">{data.price}</p>
+        )}
+        {data.available ? (
+          <a href="/contact" class="btn btn-primary">Inquire</a>
+        ) : (
+          <span class="sold-badge">Sold</span>
+        )}
+      </div>
+    </div>
+  </article>
+)}
+
+{layout === 'grid' && (
+  <article class="artwork-card">
+    <div class="artwork-image">
+      <img src={data.image.src} alt={data.alt} />
+    </div>
+    <div class="artwork-info">
+      <h3 class="card-title">{data.title}</h3>
+      <p class="artwork-meta">{data.year} • {data.medium}</p>
+      {data.price && data.available && (
+        <p class="artwork-price">{data.price}</p>
+      )}
+      {!data.available && (
+        <span class="sold-badge">Sold</span>
+      )}
+    </div>
+  </article>
+)}
+
+<style>
+  /* Featured Card */
+  .featured-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .featured-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+  }
+
+  .featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .featured-card:hover .featured-image img {
+    transform: scale(1.05);
+  }
+
+  .featured-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: var(--space-lg);
+    color: white;
+  }
+
+  .featured-overlay h3 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+  }
+
+  .featured-overlay p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  /* Gallery Item */
+  .artwork-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--content-gap);
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: var(--space-lg);
+  }
+
+  .artwork-item.reversed {
+    direction: rtl;
+  }
+
+  .artwork-item.reversed .artwork-info {
+    direction: ltr;
+  }
+
+  .artwork-item .artwork-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .artwork-item .artwork-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .artwork-item .artwork-image img:hover {
+    opacity: 0.95;
+  }
+
+  .artwork-watermark {
+    position: absolute;
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+  }
+
+  .artwork-info {
+    padding: var(--space-sm);
+  }
+
+  .artwork-info h3 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+    color: var(--charcoal-black);
+  }
+
+  .artwork-meta {
+    color: var(--warm-grey);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .artwork-description {
+    color: var(--charcoal-black);
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+  }
+
+  .artwork-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .artwork-price {
+    font-weight: 500;
+    color: var(--deep-burgundy);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .sold-badge {
+    background: var(--warm-grey);
+    color: white;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* Grid Card */
+  .artwork-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+
+  .artwork-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .artwork-card .artwork-image {
+    aspect-ratio: 4/5;
+    overflow: hidden;
+  }
+
+  .artwork-card .artwork-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .artwork-card:hover .artwork-image img {
+    transform: scale(1.05);
+  }
+
+  .artwork-card .artwork-info {
+    padding: var(--space-md);
+  }
+
+  .artwork-card .artwork-meta {
+    margin-bottom: var(--space-sm);
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 768px) {
+    .artwork-item {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+      padding: var(--space-md);
+    }
+
+    .artwork-item.reversed {
+      direction: ltr;
+    }
+
+    .artwork-info {
+      padding: 0;
+    }
+
+    .artwork-actions {
+      flex-direction: column;
+      gap: var(--space-sm);
+      align-items: stretch;
+    }
+
+    .featured-overlay {
+      padding: var(--space-md);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .artwork-item {
+      padding: var(--space-sm);
+    }
+
+    .featured-overlay {
+      padding: var(--space-sm);
+    }
+
+    .featured-overlay h3 {
+      font-size: 1.2rem;
+    }
+  }
+</style>

@@ -5,7 +5,7 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
-const pageTitle = title ? `${title} | Imogen Claire` : 'Imogen Claire - Contemporary Artist';
+const pageTitle = title ? `Imogen Claire | ${title}` : 'Imogen Claire | Contemporary Art with Traditional Flair';
 const pageDescription = description || 'Contemporary artist specializing in dark, realistic still life paintings with tenebristic lighting and gothic themes.';
 ---
 
@@ -22,7 +22,7 @@ const pageDescription = description || 'Contemporary artist specializing in dark
 </head>
 <body>
   <header class="site-header">
-    <div class="header-container">
+    <div class="container">
       <a href="/" class="logo">IMOGEN CLAIRE</a>
       <nav class="main-nav">
         <a href="/">Home</a>
@@ -38,7 +38,7 @@ const pageDescription = description || 'Contemporary artist specializing in dark
   </main>
 
   <footer class="site-footer">
-    <div class="footer-container">
+    <div class="container">
       <nav class="footer-nav">
         <a href="/gallery">Gallery</a>
         <a href="/about">About</a>
@@ -48,74 +48,11 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     </div>
   </footer>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="lightbox">
-    <div class="lightbox-backdrop"></div>
-    <div class="lightbox-container">
-      <button class="lightbox-close">&times;</button>
-      <img class="lightbox-image" src="" alt="" />
-      <div class="lightbox-details">
-        <h3 class="lightbox-title"></h3>
-        <p class="lightbox-info"></p>
-      </div>
-    </div>
-  </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.querySelector('.lightbox-image');
-      const lightboxTitle = document.querySelector('.lightbox-title');
-      const lightboxInfo = document.querySelector('.lightbox-info');
-      const lightboxClose = document.querySelector('.lightbox-close');
-      const lightboxBackdrop = document.querySelector('.lightbox-backdrop');
-
-      function openLightbox(src, title, info, alt) {
-        lightboxImage.src = src;
-        lightboxImage.alt = alt;
-        lightboxTitle.textContent = title;
-        lightboxInfo.textContent = info;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeLightbox() {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      function attachLightboxEvents() {
-        const images = document.querySelectorAll('.artwork-image img, .featured-image img');
-        images.forEach(img => {
-          img.addEventListener('click', function() {
-            const container = this.closest('.artwork-card, .artwork-item, .featured-card');
-            const title = container.querySelector('h3').textContent;
-            const meta = container.querySelector('.artwork-meta, .featured-meta');
-            const info = meta ? meta.textContent : '';
-            openLightbox(this.src, title, info, this.alt);
-          });
-        });
-      }
-
-      lightboxClose.addEventListener('click', closeLightbox);
-      lightboxBackdrop.addEventListener('click', closeLightbox);
-      
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-          closeLightbox();
-        }
-      });
-
-      attachLightboxEvents();
-
-      const observer = new MutationObserver(attachLightboxEvents);
-      observer.observe(document.body, { childList: true, subtree: true });
-    });
-  </script>
 </body>
 </html>
 
-<style>
+<style is:global>
   :root {
     --charcoal-black: #1a1a1a;
     --warm-white: #faf9f7;
@@ -125,16 +62,32 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     --soft-gold: #b8a082;
     
     --max-width: 1200px;
-    --padding: 20px;
-    --section-gap: 80px;
-    --content-gap: 40px;
+    --container-padding: 1rem;
+    --section-padding: 4rem 0;
+    --content-gap: 2rem;
+    
+    /* Responsive spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
   }
 
   @media (min-width: 768px) {
     :root {
-      --padding: 40px;
-      --section-gap: 120px;
-      --content-gap: 60px;
+      --container-padding: 2rem;
+      --section-padding: 6rem 0;
+      --content-gap: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --container-padding: 2.5rem;
+      --section-padding: 8rem 0;
     }
   }
 
@@ -151,6 +104,17 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     line-height: 1.6;
   }
 
+  /* Layout Utilities */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .section {
+    padding: var(--section-padding);
+  }
+
   /* Header */
   .site-header {
     background: var(--warm-white);
@@ -158,17 +122,15 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     position: sticky;
     top: 0;
     z-index: 100;
+    padding: var(--space-md) 0;
   }
 
-  .header-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 20px var(--padding);
+  .site-header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: var(--space-md);
   }
 
   .logo {
@@ -187,7 +149,7 @@ const pageDescription = description || 'Contemporary artist specializing in dark
 
   .main-nav {
     display: flex;
-    gap: 30px;
+    gap: var(--space-lg);
     flex-wrap: wrap;
   }
 
@@ -202,29 +164,18 @@ const pageDescription = description || 'Contemporary artist specializing in dark
     color: var(--deep-burgundy);
   }
 
-  /* Main */
-  .site-main {
-    min-height: calc(100vh - 200px);
-  }
-
   /* Footer */
   .site-footer {
     background: var(--bone);
-    margin-top: var(--section-gap);
-  }
-
-  .footer-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 40px var(--padding);
-    text-align: center;
+    padding: var(--space-2xl) 0;
+    margin-top: var(--space-2xl);
   }
 
   .footer-nav {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-bottom: 20px;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-md);
     flex-wrap: wrap;
   }
 
@@ -241,178 +192,103 @@ const pageDescription = description || 'Contemporary artist specializing in dark
   .copyright {
     color: var(--warm-grey);
     font-size: 0.9rem;
-  }
-
-  /* Lightbox */
-  .lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-  }
-
-  .lightbox.active {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .lightbox-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    cursor: pointer;
-  }
-
-  .lightbox-container {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1001;
-    padding: 20px;
-  }
-
-  .lightbox-image {
-    max-width: 100%;
-    max-height: 75vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: -50px;
-    right: -10px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 10px;
-    line-height: 1;
-    transition: color 0.3s ease;
-  }
-
-  .lightbox-close:hover {
-    color: var(--soft-gold);
-  }
-
-  .lightbox-details {
-    background: var(--warm-white);
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
     text-align: center;
-    max-width: 500px;
   }
 
-  .lightbox-title {
-    font-family: 'Crimson Pro', serif;
-    font-size: 1.4rem;
+  /* Button Styles */
+  .btn {
+    display: inline-block;
+    padding: var(--space-md) var(--space-xl);
+    border-radius: 4px;
+    text-decoration: none;
     font-weight: 500;
-    margin-bottom: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-width: 160px;
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .btn-primary {
+    background: var(--deep-burgundy);
+    color: var(--warm-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--charcoal-black);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--deep-burgundy);
+    border-color: var(--deep-burgundy);
+  }
+
+  .btn-secondary:hover {
+    background: var(--deep-burgundy);
+    color: var(--warm-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 26, 26, 0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--charcoal-black);
+    border-color: var(--charcoal-black);
+  }
+
+  .btn-outline:hover {
+    background: var(--charcoal-black);
+    color: var(--warm-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  /* Typography */
+  .hero-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 500;
+    line-height: 1.2;
     color: var(--charcoal-black);
   }
 
-  .lightbox-info {
-    color: var(--warm-grey);
-    font-size: 0.9rem;
+  .section-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 500;
+    color: var(--charcoal-black);
   }
 
-  /* Utility Classes */
-  .container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 var(--padding);
-  }
-
-  .artwork-image,
-  .featured-image {
-    cursor: pointer;
-    position: relative;
-    transition: opacity 0.3s ease;
-  }
-
-  .artwork-image:hover,
-  .featured-image:hover {
-    opacity: 0.95;
-  }
-
-  .artwork-image::after,
-  .featured-image::after {
-    content: '⊕';
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  .artwork-image:hover::after,
-  .featured-image:hover::after {
-    opacity: 1;
+  .card-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+    font-weight: 500;
+    color: var(--charcoal-black);
   }
 
   /* Mobile Navigation */
   @media (max-width: 768px) {
-    .header-container {
+    .site-header .container {
       flex-direction: column;
       text-align: center;
+      gap: var(--space-sm);
     }
 
     .main-nav {
-      gap: 20px;
+      gap: var(--space-md);
     }
 
     .footer-nav {
-      flex-direction: column;
-      gap: 15px;
+      display: none;
     }
 
-    .lightbox-container {
-      padding: 15px;
-    }
-
-    .lightbox-image {
-      max-height: 65vh;
-    }
-
-    .lightbox-close {
-      top: -40px;
-      right: 0;
-      font-size: 1.5rem;
-    }
-
-    .lightbox-details {
-      padding: 15px;
-      margin-top: 15px;
-    }
-
-    .lightbox-title {
-      font-size: 1.2rem;
+    .copyright {
+      margin-bottom: 0;
     }
   }
 </style>

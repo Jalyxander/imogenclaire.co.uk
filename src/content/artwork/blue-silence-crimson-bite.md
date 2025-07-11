@@ -1,14 +1,18 @@
 ---
 title: "Blue Silence, Crimson Bite"
-year: 2023
+year: 2025
 medium: "Oil on canvas"
-dimensions: "60 × 50 cm"
-price: "Sold"
-available: false
-featured: false
+dimensions: "60 × 80 cm"
+price: "£3,200"
+available: true
+featured: true
 image: "./blue-silence-crimson-bite.webp"
-alt: "Gothic still life featuring a human skull, wilted roses, and antique pocket watch arranged on weathered wood"
-order: 3
+alt: "In Blue Silence, Crimson Bite, tension coils in color—the moment suspended between poise and peril."
+order: 1
 ---
 
-A meditation on mortality and the passage of time, rendered in the classical vanitas tradition. The composition juxtaposes symbols of life and death, beauty and decay, inviting contemplation of our shared human condition. The dramatic lighting emphasizes the textures and symbolic weight of each carefully chosen object.
+In Blue Silence, Crimson Bite, tension coils in color—the moment suspended between poise and peril. A serpent undulates through the composition, its red scales bleeding into blue, like a flame cooling into dusk. Its form is sinuous, alert, alive with a restrained threat that pulses just beneath the surface.
+
+Hovering above, a bird of chilling grace—feathers hued in icy blue and edged in white—casts a watchful eye. Its presence is not passive; it is a counterpoint, an echo of calm defiance. The dark background folds around the figures like velvet dusk, intensifying their vivid palette and isolating them in a charged duet.
+
+This tableau hums with unspoken myth: predator and prey, sky and earth, silence and bite. While Echoes of the Forest mourned and Lux Aeterna reflected, Blue Silence, Crimson Bite confronts. It’s a painting mid-breath, trembling with the possibility of action and the poetry of balance.

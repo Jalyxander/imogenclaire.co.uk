@@ -1,191 +1,144 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 ---
 
 <BaseLayout title="About">
-  <section class="about-hero">
-    <div class="container">
-      <div class="hero-content">
-        <h1>About Imogen Claire</h1>
-      </div>
-    </div>
-  </section>
+  <Hero title="About Me" />
 
-  <section class="about-content">
+  <section class="section">
     <div class="container">
       <div class="about-layout">
         <div class="about-text">
-          <h2>Contemporary Still Life Artist</h2>
-          <p>Working in the tradition of Dutch masters, I create intimate studies that explore the quiet drama found in everyday objects. My paintings use dramatic chiaroscuro lighting to reveal hidden narratives within still life compositions, inviting viewers to contemplate themes of presence, absence, and the passage of time.</p>
-          
-          <p>Each piece begins with careful observation of light and shadow, building layers of meaning through the interplay of illumination and darkness. The gothic elements that often appear in my work—from weathered books to antique vessels—serve not as mere subjects but as vessels for deeper contemplation about mortality, memory, and the weight of history.</p>
+          <h2 class="section-title">Contemporary Artist, Modern Flair</h2>         
+          <p>Each of my pieces begins with careful observation of light and shadow, building layers of meaning through the interplay of illumination and darkness. The gothic elements that often appear in my work—from weathered books to antique vessels—serve not as mere subjects but as vessels for deeper contemplation about mortality, memory, and the weight of history.</p>
           
           <p>My artistic practice is rooted in traditional techniques while embracing contemporary sensibilities. I work primarily in oils, building up rich, luminous surfaces that capture the subtle gradations of light that define tenebristic painting. The result is work that feels both timeless and urgently contemporary, speaking to our current moment while honoring the long tradition of still life painting.</p>
 
-          <h3>Education & Background</h3>
-          <p>I studied Fine Arts at the Royal College of Art, where I developed my distinctive approach to contemporary still life. My work has been exhibited in galleries across the UK and is held in private collections internationally.</p>
-
-          <h3>Artistic Philosophy</h3>
+          <h3 class="card-title">Artistic Philosophy</h3>
           <blockquote>
-            <p>"I'm drawn to the way light can transform the mundane into something profound. In the interplay between shadow and revelation, everyday objects become carriers of meaning, inviting us to slow down and really see what's before us."</p>
+            <p>"I'm drawn to the way light can transform the mundane into something profound. In the interplay between shadow and revelation, everyday objects become carriers of meaning, inviting us to slow down and truly see—rather than merely observe—what's before us."</p>
           </blockquote>
         </div>
         
         <div class="about-sidebar">
           <div class="artist-portrait">
-            <img src="public/imogenclaire.jpeg" alt="Portrait of Imogen Claire in her studio" />
+            <img src="/imogenclaire.jpeg" alt="Portrait of Imogen Claire in her studio" />
           </div>
         </div>
       </div>
     </div>
   </section>
+</BaseLayout>
 
-  <style>
-    /* About Hero */
-    .about-hero {
-      background: var(--bone);
-      padding: var(--section-gap) 0;
-    }
+<style>
+  .about-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--content-gap);
+    align-items: start;
+  }
 
-    .hero-content {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-    }
+  .about-text h2 {
+    margin-bottom: var(--space-lg);
+  }
 
-    .about-hero h1 {
-      font-family: 'Crimson Pro', serif;
-      font-size: clamp(2.5rem, 6vw, 3.5rem);
-      font-weight: 500;
-      color: var(--charcoal-black);
-      line-height: 1.2;
-    }
+  .about-text h3 {
+    margin: var(--space-xl) 0 var(--space-md) 0;
+    color: var(--deep-burgundy);
+  }
 
-    /* About Content */
-    .about-content {
-      padding: var(--section-gap) 0;
-    }
+  .about-text p {
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
+    line-height: 1.8;
+    color: var(--charcoal-black);
+    margin-bottom: var(--space-md);
+  }
 
+  .about-text blockquote {
+    background: var(--bone);
+    padding: var(--space-lg);
+    border-radius: 8px;
+    margin: var(--space-xl) 0;
+    border-left: 4px solid var(--deep-burgundy);
+  }
+
+  .about-text blockquote p {
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+    color: var(--charcoal-black);
+    margin-bottom: 0;
+    line-height: 1.7;
+  }
+
+  .about-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    position: sticky;
+    top: calc(var(--space-3xl) + 20px);
+  }
+
+  .artist-portrait {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+
+  .artist-portrait:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+  }
+
+  .artist-portrait img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
     .about-layout {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: var(--content-gap);
-      align-items: start;
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
     }
 
-    /* About Text */
-    .about-text h2 {
-      font-family: 'Crimson Pro', serif;
-      font-size: clamp(1.8rem, 4vw, 2.4rem);
-      font-weight: 500;
-      margin-bottom: 30px;
-      color: var(--charcoal-black);
-      line-height: 1.3;
-    }
-
-    .about-text h3 {
-      font-family: 'Crimson Pro', serif;
-      font-size: clamp(1.3rem, 3vw, 1.6rem);
-      font-weight: 500;
-      margin: 40px 0 20px 0;
-      color: var(--deep-burgundy);
-      line-height: 1.4;
-    }
-
-    .about-text p {
-      font-size: clamp(1rem, 2.2vw, 1.1rem);
-      line-height: 1.8;
-      color: var(--charcoal-black);
-      margin-bottom: 25px;
-    }
-
-    .about-text blockquote {
-      background: var(--bone);
-      padding: 30px;
-      border-radius: 8px;
-      margin: 40px 0;
-      border-left: 4px solid var(--deep-burgundy);
-    }
-
-    .about-text blockquote p {
-      font-style: italic;
-      font-size: clamp(1.1rem, 2.5vw, 1.2rem);
-      color: var(--charcoal-black);
-      margin-bottom: 0;
-      line-height: 1.7;
-    }
-
-    /* About Sidebar */
     .about-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      position: sticky;
-      top: 120px;
+      order: -1;
+      position: static;
+      align-items: center;
     }
 
     .artist-portrait {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    .artist-portrait:hover {
-      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-      transform: translateY(-2px);
-    }
-
-    .artist-portrait img {
+      max-width: 350px;
       width: 100%;
-      height: auto;
-      aspect-ratio: 4/5;
-      object-fit: cover;
-      display: block;
     }
 
-    /* Mobile Styles */
-    @media (max-width: 768px) {
-      .about-layout {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
+    .about-text blockquote {
+      padding: var(--space-md);
+      margin: var(--space-lg) 0;
+    }
+  }
 
-      .about-sidebar {
-        order: -1;
-        position: static;
-        align-items: center;
-      }
-
-      .artist-portrait {
-        max-width: 350px;
-        width: 100%;
-      }
-
-      .about-text blockquote {
-        padding: 25px;
-        margin: 30px 0;
-      }
+  @media (max-width: 480px) {
+    .about-layout {
+      gap: var(--space-lg);
     }
 
-    @media (max-width: 480px) {
-      .about-layout {
-        gap: 30px;
-      }
-
-      .artist-portrait {
-        max-width: 300px;
-      }
-
-      .about-text blockquote {
-        padding: 20px;
-        margin: 25px 0;
-      }
-
-      .about-text h3 {
-        margin: 30px 0 15px 0;
-      }
+    .artist-portrait {
+      max-width: 300px;
     }
-  </style>
-</BaseLayout>
+
+    .about-text blockquote {
+      padding: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+
+    .about-text h3 {
+      margin: var(--space-lg) 0 var(--space-sm) 0;
+    }
+  }
+</style>

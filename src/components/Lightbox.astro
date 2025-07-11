@@ -1,0 +1,253 @@
+---
+// Lightbox component for artwork viewing
+---
+
+<div id="lightbox" class="lightbox">
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-container">
+    <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+    <img class="lightbox-image" src="" alt="" />
+    <div class="lightbox-details">
+      <h3 class="lightbox-title"></h3>
+      <p class="lightbox-info"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  class LightboxManager {
+    constructor() {
+      this.lightbox = document.getElementById('lightbox');
+      this.lightboxImage = document.querySelector('.lightbox-image');
+      this.lightboxTitle = document.querySelector('.lightbox-title');
+      this.lightboxInfo = document.querySelector('.lightbox-info');
+      this.lightboxClose = document.querySelector('.lightbox-close');
+      this.lightboxBackdrop = document.querySelector('.lightbox-backdrop');
+      
+      this.init();
+    }
+
+    init() {
+      this.bindEvents();
+      this.attachImageEvents();
+      
+      // Re-attach events when new content is added (for dynamic content)
+      const observer = new MutationObserver(() => this.attachImageEvents());
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    bindEvents() {
+      this.lightboxClose?.addEventListener('click', () => this.close());
+      this.lightboxBackdrop?.addEventListener('click', () => this.close());
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.lightbox?.classList.contains('active')) {
+          this.close();
+        }
+      });
+    }
+
+    attachImageEvents() {
+      const images = document.querySelectorAll('.artwork-image img, .featured-image img');
+      images.forEach(img => {
+        // Remove existing listener to prevent duplicates
+        img.removeEventListener('click', this.handleImageClick);
+        img.addEventListener('click', this.handleImageClick.bind(this));
+      });
+    }
+
+    handleImageClick(event) {
+      const img = event.target;
+      const container = img.closest('.artwork-card, .artwork-item, .featured-card');
+      if (!container) return;
+
+      const title = container.querySelector('h3')?.textContent || '';
+      const meta = container.querySelector('.artwork-meta, .featured-meta');
+      const info = meta?.textContent || '';
+      
+      this.open(img.src, title, info, img.alt);
+    }
+
+    open(src, title, info, alt) {
+      if (!this.lightboxImage) return;
+
+      this.lightboxImage.src = src;
+      this.lightboxImage.alt = alt;
+      this.lightboxTitle.textContent = title;
+      this.lightboxInfo.textContent = info;
+      this.lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    close() {
+      this.lightbox?.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    new LightboxManager();
+  });
+</script>
+
+<style>
+  .lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .lightbox.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+  }
+
+  .lightbox-container {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1001;
+    padding: var(--space-md);
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 75vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: calc(-1 * var(--space-xl));
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: var(--space-sm);
+    line-height: 1;
+    transition: color 0.3s ease;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-close:hover {
+    color: var(--soft-gold);
+  }
+
+  .lightbox-details {
+    background: var(--warm-white);
+    padding: var(--space-md);
+    border-radius: 8px;
+    margin-top: var(--space-md);
+    text-align: center;
+    max-width: 500px;
+  }
+
+  .lightbox-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+    color: var(--charcoal-black);
+  }
+
+  .lightbox-info {
+    color: var(--warm-grey);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .lightbox-container {
+      padding: var(--space-sm);
+    }
+
+    .lightbox-image {
+      max-height: 65vh;
+    }
+
+    .lightbox-close {
+      top: calc(-1 * var(--space-lg));
+      font-size: 1.5rem;
+      width: 36px;
+      height: 36px;
+    }
+
+    .lightbox-details {
+      padding: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+
+    .lightbox-title {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* Clickable image indicator */
+  .artwork-image,
+  .featured-image {
+    cursor: pointer;
+    position: relative;
+    transition: opacity 0.3s ease;
+  }
+
+  .artwork-image:hover,
+  .featured-image:hover {
+    opacity: 0.95;
+  }
+
+  .artwork-image::after,
+  .featured-image::after {
+    content: '⊕';
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .artwork-image:hover::after,
+  .featured-image:hover::after {
+    opacity: 1;
+  }
+</style>
