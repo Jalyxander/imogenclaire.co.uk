@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+---
+
+<BaseLayout title="Message Sent">
+  <Hero title="Thank You!" />
+
+  <section class="section">
+    <div class="container">
+      <div class="success-content">
+        <div class="success-icon">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="12" fill="var(--deep-burgundy)" fill-opacity="0.1"/>
+            <path d="M9 12l2 2 4-4" stroke="var(--deep-burgundy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        
+        <h2 class="section-title">Your message has been sent successfully</h2>
+        
+        <div class="success-details">
+          <p>Thank you for reaching out! I've received your message and will get back to you within 24-48 hours.</p>
+          <p>If you have any urgent matters, please feel free to contact me directly at <a href="mailto:hello@imogenclaire.co.uk">hello@imogenclaire.co.uk</a>.</p>
+        </div>
+
+        <div class="success-actions">
+          <a href="/gallery" class="btn btn-primary">View Gallery</a>
+          <a href="/" class="btn btn-secondary">Return Home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .success-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .success-icon {
+    margin-bottom: var(--space-xl);
+    display: flex;
+    justify-content: center;
+  }
+
+  .success-content h2 {
+    margin-bottom: var(--space-lg);
+    color: var(--deep-burgundy);
+  }
+
+  .success-details {
+    margin-bottom: var(--space-xl);
+  }
+
+  .success-details p {
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
+    line-height: 1.7;
+    color: var(--warm-grey);
+    margin-bottom: var(--space-md);
+  }
+
+  .success-details p:last-child {
+    margin-bottom: 0;
+  }
+
+  .success-details a {
+    color: var(--deep-burgundy);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .success-details a:hover {
+    color: var(--charcoal-black);
+    text-decoration: underline;
+  }
+
+  .success-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .success-actions {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .success-actions .btn {
+      width: 200px;
+    }
+  }
+</style>

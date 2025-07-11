@@ -6,7 +6,7 @@ import Hero from '../components/Hero.astro';
 <BaseLayout title="Contact">
   <Hero 
     title="Contact" 
-    subtitle="Are you interested in purchasing original artwork or commissioning a custom piece? I'd love to hear from you."
+    subtitle="Interested in purchasing original work or commissioning a piece? I'd love to hear from you."
   />
 
   <section class="section">
@@ -14,7 +14,29 @@ import Hero from '../components/Hero.astro';
       <div class="contact-layout">
         <div class="contact-form-container">
           <h2 class="section-title">Send a Message</h2>
-          <form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          
+          <!-- Hidden form for Netlify to detect during build -->
+          <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+            <input type="text" name="name" />
+            <input type="email" name="email" />
+            <select name="subject">
+              <option value="purchase">Purchase Inquiry</option>
+              <option value="commission">Commission Request</option>
+              <option value="exhibition">Exhibition Inquiry</option>
+              <option value="general">General Inquiry</option>
+            </select>
+            <input type="text" name="artwork" />
+            <textarea name="message"></textarea>
+          </form>
+
+          <form 
+            class="contact-form" 
+            name="contact" 
+            method="POST" 
+            action="/contact/success"
+            data-netlify="true" 
+            netlify-honeypot="bot-field"
+          >
             <input type="hidden" name="form-name" value="contact" />
             
             <!-- Honeypot field -->
@@ -56,14 +78,14 @@ import Hero from '../components/Hero.astro';
               <textarea id="message" name="message" rows="6" required placeholder="Tell me about your interest in the work or commission details..."></textarea>
             </div>
             
-            <button type="submit" class="btn btn-primary">Send</button>
+            <button type="submit" class="btn btn-primary">Send Message</button>
           </form>
         </div>
         
         <div class="contact-info">
           <div class="info-card">
             <h3 class="card-title">Response Time</h3>
-            <p>I typically respond to inquiries within 48 hours. If your inquiry is urgent, please mention this in your message.</p>
+            <p>I typically respond to inquiries within 24-48 hours. For urgent matters, please mention this in your message.</p>
           </div>
           
           <div class="info-card">
