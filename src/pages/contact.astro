@@ -33,11 +33,11 @@ import Hero from '../components/Hero.astro';
             class="contact-form" 
             name="contact" 
             method="POST" 
-            action="/contact/success"
             data-netlify="true" 
             netlify-honeypot="bot-field"
           >
             <input type="hidden" name="form-name" value="contact" />
+            <input type="hidden" name="_redirect" value="/contact/success" />
             
             <!-- Honeypot field -->
             <div class="hidden-field">
@@ -78,14 +78,14 @@ import Hero from '../components/Hero.astro';
               <textarea id="message" name="message" rows="6" required placeholder="Tell me about your interest in the work or commission details..."></textarea>
             </div>
             
-            <button type="submit" class="btn btn-primary">Send Message</button>
+            <button type="submit" class="btn btn-primary">Message</button>
           </form>
         </div>
         
         <div class="contact-info">
           <div class="info-card">
             <h3 class="card-title">Response Time</h3>
-            <p>I typically respond to inquiries within 24-48 hours. For urgent matters, please mention this in your message.</p>
+            <p>I typically respond to inquiries within 48 hours. If your inquiry is urgent, please mention this in your message.</p>
           </div>
           
           <div class="info-card">
