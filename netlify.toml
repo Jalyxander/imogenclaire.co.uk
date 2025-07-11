@@ -3,11 +3,3 @@
 [build]
   publish = "dist"
   command = "npm run build"
-
-# Handle form submissions
-[[redirects]]
-  from = "/*"
-  to = "/thanks"
-  status = 302
-  force = false
-  conditions = {Role = ["form-submission"]}
