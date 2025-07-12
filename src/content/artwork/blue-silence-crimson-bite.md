@@ -7,11 +7,11 @@ price: "£3,200"
 available: true
 featured: true
 image: "./blue-silence-crimson-bite.webp"
-alt: "In Blue Silence, Crimson Bite, tension coils in color—the moment suspended between poise and peril."
+alt: "In Blue Silence, Crimson Bite, tension coils in colour—the moment suspended between poise and peril."
 order: 1
 ---
 
-In Blue Silence, Crimson Bite, tension coils in color—the moment suspended between poise and peril. A serpent undulates through the composition, its red scales bleeding into blue, like a flame cooling into dusk. Its form is sinuous, alert, alive with a restrained threat that pulses just beneath the surface.
+In Blue Silence, Crimson Bite, tension coils in colour—the moment suspended between poise and peril. A serpent undulates through the composition, its red scales bleeding into blue, like a flame cooling into dusk. Its form is sinuous, alert, alive with a restrained threat that pulses just beneath the surface.
 
 Hovering above, a bird of chilling grace—feathers hued in icy blue and edged in white—casts a watchful eye. Its presence is not passive; it is a counterpoint, an echo of calm defiance. The dark background folds around the figures like velvet dusk, intensifying their vivid palette and isolating them in a charged duet.
 

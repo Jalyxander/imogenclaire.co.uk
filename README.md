@@ -7,7 +7,7 @@ A sophisticated, responsive website built with Astro for contemporary gothic sti
 - **Responsive Design**: Optimized for all screen sizes
 - **Content Management**: Artwork details stored in Markdown files
 - **Image Lightbox**: Full-screen image viewing with details
-- **Contact Form**: Professional inquiry handling
+- **Contact Form**: Professional enquiry handling
 - **Performance Optimized**: Fast loading with modern web standards
 
 ## Project Structure
