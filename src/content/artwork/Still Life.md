@@ -6,7 +6,7 @@ dimensions: "29.7 × 42 cm"
 price: "£700"
 available: true
 featured: true
-image: "./still life.webp"
+image: "./Still Life.webp"
 alt: "A modern study of Harmen Steenwick's 'An Allegory of the Vanities of Human Life' (1640)"
 order: 6
 ---
