@@ -3,7 +3,7 @@ title: "Blue Silence, Crimson Bite"
 year: 2025
 medium: "Oil on canvas"
 dimensions: "60 × 80 cm"
-price: "£3,200"
+price: "£650"
 available: true
 featured: true
 image: "./blue-silence-crimson-bite.webp"
